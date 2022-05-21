@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 10.0f;
-    public float jumpPower = 10.0f;
+    [Header("Movement Parameters")]
+    public float speed;
+    public float jumpPower;
+
+    [Header("Layers")]
     public LayerMask groundLayer;
     public LayerMask wallLayer;
-  
+
+    [Header("Sounds")]
+    public AudioClip jumpSound;
+
     private Rigidbody2D rb;
     private Animator anim;
     private BoxCollider2D collider;
     private float wallJumpCooldown;
     private float HorizontalMovement;
+
+
 
     private void Awake()
     {
@@ -21,12 +29,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         collider = GetComponent<BoxCollider2D>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
@@ -49,11 +51,11 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("Grounded", isGrounded());
 
         //Logica de WallJump
-        if(wallJumpCooldown > 0.2f)
+        if (wallJumpCooldown > 0.2f)
         {
             rb.velocity = new Vector2(HorizontalMovement * speed, rb.velocity.y);
 
-            if(onWall() && !isGrounded())
+            if (onWall() && !isGrounded())
             {
                 rb.gravityScale = 0;
                 rb.velocity = Vector2.zero;
@@ -66,6 +68,11 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.Space))
             {
                 Jump();
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    SoundManager.Instance.PlaySound(jumpSound);
+                }
             }
         }
         else
@@ -77,9 +84,9 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         if (isGrounded())
-        {
+        {            
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-            anim.SetTrigger("Jump");
+            SoundManager.Instance.PlaySound(jumpSound);
         }
         else if(onWall() && !isGrounded())
         {
