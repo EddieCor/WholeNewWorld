@@ -12,6 +12,15 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     public LayerMask wallLayer;
 
+    [Header("Dashing")]
+    private bool canDash = true;
+    private bool isDashing;
+    public float DashingPower = 24f;
+    public float DashingTime = 0.2f;
+    public float DashingCooldown = 1;
+
+    public TrailRenderer tr;
+
     [Header("Sounds")]
     public AudioClip jumpSound;
 
@@ -20,7 +29,6 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D collider;
     private float wallJumpCooldown;
     private float HorizontalMovement;
-
 
 
     private void Awake()
@@ -34,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDashing)
+        {
+            return;
+        }
+
         HorizontalMovement = Input.GetAxis("Horizontal");
 
        //Gira el modelo del personaje a izquierda o derecha
@@ -79,6 +92,12 @@ public class PlayerMovement : MonoBehaviour
         {
             wallJumpCooldown += Time.deltaTime;
         }
+
+        if(Input.GetKeyDown(KeyCode.Z) && canDash)
+        {
+            anim.SetTrigger("Dash");
+            StartCoroutine(Dash());
+        }
     }
 
     private void Jump()
@@ -119,5 +138,29 @@ public class PlayerMovement : MonoBehaviour
     public bool canAttack()
     {
         return HorizontalMovement == 0 && isGrounded() && !onWall();
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.velocity = new Vector2(transform.localScale.x * DashingPower, 0f);
+        tr.emitting = true;
+        yield return new WaitForSeconds(DashingTime);
+        tr.emitting = false;
+        rb.gravityScale = originalGravity;
+        isDashing = false;
+        yield return new WaitForSeconds(DashingCooldown);
+        canDash = true;
+    }
+
+    private void FixedUpdate()
+    {
+        if (isDashing)
+        {
+            return;
+        }
     }
 }
