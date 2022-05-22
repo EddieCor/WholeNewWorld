@@ -639,7 +639,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Desarrollo\t\tEdgardo Corssen\n\nArte\t\t\t\t\t\tEmiliano Mondeja\n\nArea
+  m_Text: "Desarrollo\t\tEdgardo Corssen\n\nArte\t\t\t\t\t\tEmiliano Mondejar\n\nArea
     creativa Rodrigo Canales\n\nInvestigaci\xF3n Andrea Cassani"
 --- !u!222 &684964765
 CanvasRenderer:
@@ -1192,7 +1192,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Back
+  m_Text: Menu
 --- !u!222 &1074843666
 CanvasRenderer:
   m_ObjectHideFlags: 0
