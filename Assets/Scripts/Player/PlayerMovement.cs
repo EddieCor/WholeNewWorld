@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Sounds")]
     public AudioClip jumpSound;
+    public AudioClip dashSound;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -142,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        SoundManager.Instance.PlaySound(dashSound);
         canDash = false;
         isDashing = true;
         float originalGravity = rb.gravityScale;
