@@ -54,7 +54,7 @@ public class Health : MonoBehaviour
                 //Jugador
                 if (GetComponent<PlayerMovement>() != null)
                 {
-                    GetComponent<PlayerMovement>().enabled = false;
+                    //GetComponent<PlayerMovement>().enabled = false;
                 }
 
                 //Enemigo
